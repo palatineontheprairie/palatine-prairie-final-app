@@ -1,0 +1,15 @@
+steps:
+- name: 'hashicorp/terraform:latest'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+    terraform init
+    terraform apply -auto-approve -var="project_id=$PROJECT_ID" -var="github_repo=${_REPO_NAME}"
+  dir: 'terraform'
+
+substitutions:
+  _REPO_NAME: $(body.repository.full_name)
+
+options:
+  logging: CLOUD_LOGGING_ONLY
